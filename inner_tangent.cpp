@@ -4,9 +4,14 @@
 #include <cmath>
 
 Tangent::Tangent() {
-    circle1.setFillColor(sf::Color(100, 250, 50));
-    circle2.setFillColor(sf::Color(100, 50, 250));
+    circle1.setFillColor(sf::Color(0, 0, 0));
+    circle2.setFillColor(sf::Color(0, 0, 0));
 
+    circle1.setOutlineThickness(1.f);
+    circle2.setOutlineThickness(1.f);
+
+    circle1.setOutlineColor(sf::Color(100, 250, 50));
+    circle2.setOutlineColor(sf::Color(100, 50, 250));
 }
 
 std::istream& operator>>(std::istream& str, Tangent& tangent) {
@@ -54,7 +59,7 @@ std::istream& operator>>(std::istream& str, sf::CircleShape& circle) {
                         "WRONG POS/RAD\n";
     } while(wrong_pos_rad());
     circle.setRadius(radius);
-    circle.move(x, y);
+    circle.setPosition(x, y);
 
     return str;
 }
@@ -134,7 +139,7 @@ POINT  line_circle_crossing_point(const CIRCLE& circle, const LINE& line) {
     float crossing_d = (circle.rad_sqr - (c0 * c0) /
                                          denominator);
 
-    if(crossing_d < 0) return {cross_x0+circle.pos.x, cross_y0+circle.pos.y}; //TANGENT POINT
+    if(crossing_d < 0.000005f) return {cross_x0+circle.pos.x, cross_y0+circle.pos.y}; //TANGENT POINT
 
     float mult = sqrt(crossing_d/denominator);
 

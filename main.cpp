@@ -5,8 +5,11 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(MODE_WIDTH, MODE_HEIGHT), "My window");
 
+    sf::ContextSettings settings;
+    settings.antialiasingLevel = 8;
+
+    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML shapes", sf::Style::Default, settings);
     Tangent tangent;
 //    std::istringstream test("40 150 150\n70 400 400");
 //    test >> tangent;
