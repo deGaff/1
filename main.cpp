@@ -5,13 +5,12 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(800, MODE_HEIGHT), "My window");
+    sf::RenderWindow window(sf::VideoMode(MODE_WIDTH, MODE_HEIGHT), "My window");
 
     Tangent tangent;
 //    std::istringstream test("40 150 150\n70 400 400");
 //    test >> tangent;
 
-    std::cin >> tangent;
 
     while (window.isOpen())
     {
@@ -21,15 +20,21 @@ int main()
             if (event.type == sf::Event::Closed) {
                 window.close();
             }
-        }
 
+            if (event.type == sf::Event::KeyPressed)
+            {
+                if (event.key.code == sf::Keyboard::Enter)
+                {
+                    std::cin >> tangent;
+                }
+            }
+        }
 
         window.clear(sf::Color::Black);
 
         window.draw(tangent.get_circ1());
         window.draw(tangent.get_circ2());
-        auto a = tangent.get_line();
-        window.draw(a, 4, sf::Lines);
+        window.draw(tangent.get_line(), 2, sf::Lines);
 
         window.display();
     }

@@ -8,6 +8,7 @@
 #include <tuple>
 
 #define MODE_HEIGHT 600
+#define MODE_WIDTH 800
 
 
 struct POINT{
@@ -38,6 +39,8 @@ private:
     sf::CircleShape circle1, circle2;
     sf::Vertex line[2];
 };
+
+std::istream& operator>>(std::istream&, sf::CircleShape& circle);
 
 POINT  line_circle_crossing_point(const CIRCLE& circle, const LINE& line);
 

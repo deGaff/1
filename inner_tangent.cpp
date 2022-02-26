@@ -10,19 +10,52 @@ Tangent::Tangent() {
 }
 
 std::istream& operator>>(std::istream& str, Tangent& tangent) {
-    float radius, x, y;
 
-    std::cout << "Enter first circle radius and position\n";
-    str >> radius >> x >> y;
-    tangent.circle1.setRadius(radius);
-    tangent.circle1.move(x, y);
+    auto intersect = [&tangent](){
+        POINT center1 = {tangent.circle1.getPosition().x + tangent.circle1.getRadius(),
+                        tangent.circle1.getPosition().y + tangent.circle1.getRadius()},
+                center2 = {tangent.circle2.getPosition().x + tangent.circle2.getRadius(),
+                          tangent.circle2.getPosition().y + tangent.circle2.getRadius()};
 
-    std::cout << "\nEnter second circle radius and position\n";
-    str >> radius >> x >> y;
-    tangent.circle2.setRadius(radius);
-    tangent.circle2.move(x, y);
+        float dist_sqr = (center1.x - center2.x)*(center1.x - center2.x) + (center1.y - center2.y)*(center1.y - center2.y);
+
+        float rad_sqr = tangent.circle1.getRadius()+tangent.circle2.getRadius();
+        rad_sqr*=rad_sqr;
+
+        return dist_sqr < rad_sqr;
+    };
+
+    do {
+        std::cout << "Enter first circle radius and position\n";
+        str >> tangent.circle1;
+
+        std::cout << "Enter second circle radius and position\n";
+        str >> tangent.circle2;
+
+        if(intersect())
+            std::cout << "CIRCLES INTERSECT\n";
+    } while(intersect());
 
     tangent.update();
+    return str;
+}
+
+std::istream& operator>>(std::istream& str, sf::CircleShape& circle) {
+    float radius, x, y;
+
+    auto wrong_pos_rad = [&radius, &x, &y]() {
+        return radius <= 0 || x < 0 || x + radius*2 > MODE_WIDTH ||
+         y < 0 || y + radius*2 > MODE_HEIGHT;
+    };
+
+    do {
+        str >> radius >> x >> y;
+        if(wrong_pos_rad()) std::cout <<
+                        "WRONG POS/RAD\n";
+    } while(wrong_pos_rad());
+    circle.setRadius(radius);
+    circle.move(x, y);
+
     return str;
 }
 
