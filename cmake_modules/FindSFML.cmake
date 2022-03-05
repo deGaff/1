@@ -55,7 +55,7 @@
 #   add_executable(myapp ...)
 #   target_link_libraries(myapp ${SFML_LIBRARIES})
 
-SET(${SFML_ROOT} C:/SFML)
+SET(SFML_ROOT C:/SFML)
 
 # define the SFML_STATIC macro if static build was chosen
 if(SFML_STATIC_LIBRARIES)
